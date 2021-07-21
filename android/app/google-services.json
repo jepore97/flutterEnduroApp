@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "19704131877",
+    "project_id": "notificacioncolombiaenduro",
+    "storage_bucket": "notificacioncolombiaenduro.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:19704131877:android:282f315527917bb85aaacc",
+        "android_client_info": {
+          "package_name": "com.example.ui_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "19704131877-mqs2clu7d7ui544vjd3sapbgbt56bqoa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ui_flutter",
+            "certificate_hash": "a998fa57813199c498c859ae75c5291ae6093c4b"
+          }
+        },
+        {
+          "client_id": "19704131877-cp6kt34tqj53fd73dfb4ipqnhk3ce0qr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-GKwZmQgktLaU8tvn_zjqC1fTphtUIso"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "19704131877-cp6kt34tqj53fd73dfb4ipqnhk3ce0qr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -5,11 +5,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:ui_flutter/src/pages/inicio.dart';
 import 'package:ui_flutter/src/pages/login.dart';
+import 'package:ui_flutter/src/providers/push_notification_provider.dart';
+import 'package:ui_flutter/src/providers/push_notification_provider.dart';
 import 'package:ui_flutter/src/services/local_notification.dart';
 import 'package:ui_flutter/src/services/services_carga.dart';
 import 'package:ui_flutter/src/services/socket.dart';
 
 import '../../main.dart';
+import 'emergency_help.dart';
 
 class SplashScreen extends StatefulWidget {
   SplashScreen({Key key}) : super(key: key);
@@ -23,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
   String _versionName = 'V1.0';
   final splashDelay = 4;
   LocalNotification localNotification;
-
+  final pushNotificationProvider = new PushNotificationProvider();
   @override
   void initState() {
     super.initState();
@@ -51,6 +54,11 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (BuildContext context) => PageLogin()));
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override

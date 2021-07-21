@@ -66,7 +66,7 @@ class _PagesVehiculoDetallesState extends State<PagesVehiculoDetalles> {
                         children: [
                           _encabezadopropietario(),
                           _placaydesc(),
-                          _documentos(),
+                          _documentos(vehiculo),
                         ],
                       ),
                     ),
@@ -173,13 +173,92 @@ class _PagesVehiculoDetallesState extends State<PagesVehiculoDetalles> {
     );
   }
 
-  _documentos() {
+  _documentos(vehiculo) {
     return Container(
       margin: EdgeInsets.only(top: 10),
+      padding: EdgeInsets.all(10),
       child: Column(
         children: [
           Text('Soat y Tecnomecanica',
               style: Theme.of(context).textTheme.overline),
+          Container(
+            margin: EdgeInsets.only(top: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                widget.vehiculo['dif_soat'] < 0
+                    ? Text(
+                        'Soat Vencido  hace: ${widget.vehiculo['dif_soat'] * -1} dias ',
+                        style: (TextStyle(color: Colors.red)))
+                    : Text('Venc Soat: ${widget.vehiculo['ve_fecha_soat']}'),
+                widget.vehiculo['dif_tecno'] < 0
+                    ? Text(
+                        'Tecno Vencida  hace: ${widget.vehiculo['dif_tecno'] * -1} dias ',
+                        style: (TextStyle(color: Colors.red)))
+                    : Text('Venc Tecno: ${widget.vehiculo['ve_fecha_tecno']}'),
+              ],
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                InkWell(
+                  onTap: () {
+                    WidgetsGenericos.fullDialogImage(
+                        vehiculo[0]['ve_foto_soat']);
+                  },
+                  child: Stack(
+                    children: [
+                      Container(
+                        width: 150,
+                        height: 200,
+                        child: WidgetsGenericos.loadImage(
+                            vehiculo[0]['ve_foto_soat']),
+                      ),
+                      Container(
+                        width: 150,
+                        decoration: BoxDecoration(
+                          color: Colors.grey,
+                        ),
+                        child: Text(
+                          'Foto Soat',
+                          textAlign: TextAlign.center,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    WidgetsGenericos.fullDialogImage(
+                        vehiculo[0]['ve_foto_tecno']);
+                  },
+                  child: Stack(
+                    children: [
+                      Container(
+                        width: 150,
+                        height: 200,
+                        child: WidgetsGenericos.loadImage(
+                            vehiculo[0]['ve_foto_tecno']),
+                      ),
+                      Container(
+                        width: 150,
+                        decoration: BoxDecoration(
+                          color: Colors.grey,
+                        ),
+                        child: Text(
+                          'Foto Tecno Mecanica',
+                          textAlign: TextAlign.center,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );

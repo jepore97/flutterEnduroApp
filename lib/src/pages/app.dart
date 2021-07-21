@@ -2,8 +2,32 @@ import 'package:connection_status_bar/connection_status_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:ui_flutter/src/pages/splash_screen.dart';
+import 'package:ui_flutter/src/providers/push_notification_provider.dart';
 
-class MyApp extends StatelessWidget {
+import 'emergency_help.dart';
+
+class MyApp extends StatefulWidget {
+  MyApp({Key key}) : super(key: key);
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final GlobalKey<NavigatorState> navigator = new GlobalKey<NavigatorState>();
+
+  final pushNotificationProvider = new PushNotificationProvider();
+  @override
+  void initState() {
+    pushNotificationProvider.initNotifications();
+    pushNotificationProvider.mensajes.listen((argumento) {
+      navigator.currentState.push(MaterialPageRoute(
+          builder: (BuildContext context) =>
+              PageEmergencyHelp(argumento.toString())));
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -11,6 +35,8 @@ class MyApp extends StatelessWidget {
       builder: (context, child) => Stack(
         children: [
           MaterialApp(
+            navigatorKey: navigator,
+
             home: SplashScreen(),
             title: 'Colombia Enduro',
 

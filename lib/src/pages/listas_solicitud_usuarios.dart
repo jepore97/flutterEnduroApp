@@ -316,56 +316,39 @@ class _PageListasSolicitudUsuariosState
                   ],
                 ),
                 Center(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    child: Container(
-                      width: 150,
-                      height: 150,
-                      decoration: new BoxDecoration(
-                        color: Colors.blue,
-                        shape: BoxShape.circle,
-                      ),
-                      child: (data['us_logo'] != null)
-                          ? ClipRRect(
-                              borderRadius: BorderRadius.circular(25.0),
-                              child: CachedNetworkImage(
-                                imageUrl: data['us_logo'],
-                                placeholder: (context, url) => Center(
-                                  child: Shimmer.fromColors(
-                                    baseColor: Colors.grey[400],
-                                    highlightColor: Colors.grey[300],
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.grey,
-                                        borderRadius: BorderRadius.circular(50),
-                                      ),
-                                      width: 50,
-                                      height: 50,
-                                      child: Text(''),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            )
-                          : Icon(Icons.person_outlined, size: 100),
-                    ),
-                  ),
+                  child: data['us_logo'] != null
+                      ? WidgetsGenericos.imagen_perfil(context, data['us_logo'])
+                      : Container(
+                          padding: EdgeInsets.symmetric(vertical: 20),
+                          child: Container(
+                            width: 150,
+                            height: 150,
+                            decoration: new BoxDecoration(
+                              color: Colors.blue,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(Icons.person_outlined, size: 100),
+                          ),
+                        ),
                 ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      data['us_nombres'] + " " + data['us_apellidos'],
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
+                Container(
+                  margin: EdgeInsets.only(top: 20),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        data['us_nombres'] + " " + data['us_apellidos'],
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
                       ),
-                    ),
-                    (data['us_alias'] != '' && data['us_alias'] != null)
-                        ? Text(" (" + data['us_alias'] + ")")
-                        : Text(""),
-                  ],
+                      (data['us_alias'] != '' && data['us_alias'] != null)
+                          ? Text(" (" + data['us_alias'] + ")")
+                          : Text(""),
+                    ],
+                  ),
                 ),
                 Center(
                   child: Text(

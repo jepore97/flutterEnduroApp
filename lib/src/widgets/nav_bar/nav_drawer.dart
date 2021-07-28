@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ui_flutter/src/pages/busqueda_emergencia.dart';
+import 'package:ui_flutter/src/pages/boton_panico_enviar.dart';
 import 'package:ui_flutter/src/pages/listas_publicacion_masiva.dart';
 import 'package:ui_flutter/src/pages/listas_sedes.dart';
 import 'package:ui_flutter/src/pages/listas_empresas.dart';
@@ -214,9 +215,13 @@ class NavDrawerState extends State<NavDrawer> {
           ),
           Divider(),
           _createDrawerItem(
-              icon: Icons.contacts,
-              text: 'Boton Panico',
-              onTap: () => Navigator.pop(context)),
+            icon: Icons.contacts,
+            text: 'Boton Panico',
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => PageBotonPanico()),
+            ),
+          ),
           Divider(),
           _createDrawerItem1(
             context: context,

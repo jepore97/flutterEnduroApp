@@ -38,6 +38,40 @@ class WidgetsGenericos {
     );
   }
 
+  static Widget imagen_perfil(BuildContext context, String url) {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute<void>(
+            builder: (BuildContext context) =>
+                WidgetsGenericos.fullDialogImage(url),
+            fullscreenDialog: true,
+          ),
+        );
+      },
+      child: Center(
+        child: Container(
+          width: 140.0,
+          height: 140.0,
+          decoration: BoxDecoration(
+            image: DecorationImage(image: NetworkImage(url), fit: BoxFit.cover),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 5,
+                blurRadius: 7,
+                offset: Offset(0, 3), // changes position of shadow
+              ),
+            ],
+            borderRadius: BorderRadius.circular(80.0),
+            border: Border.all(color: Colors.white, width: 5.0),
+          ),
+        ),
+      ),
+    );
+  }
+
   static Widget shimmerList() {
     return Column(
       children: [

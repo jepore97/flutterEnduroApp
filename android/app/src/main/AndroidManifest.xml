@@ -13,6 +13,10 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="Colombia Enduro"
         android:icon="@mipmap/ic_launcher">
+
+        <meta-data
+    android:name="com.google.android.geo.API_KEY"
+    android:value="AIzaSyA9NzcLiT6V2j6WWU-1N52G6DXbtBm0-vE" />
         <service
     android:name="io.flutter.plugins.androidalarmmanager.AlarmService"
     android:permission="android.permission.BIND_JOB_SERVICE"
@@ -42,6 +46,8 @@
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
               />
+
+              
             <!-- Displays an Android View that continues showing the launch screen
                  Drawable until Flutter paints its first frame, then this splash
                  screen fades out. A splash screen is useful to avoid any visual
@@ -75,4 +81,8 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 </manifest>

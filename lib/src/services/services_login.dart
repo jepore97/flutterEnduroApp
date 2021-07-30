@@ -8,6 +8,8 @@ class ServicioLogin {
   Future<Login> signin(String email, String password) async {
     http.Response response;
     try {
+      print(url);
+      print('por aqui');
       Login login;
       response = await http.post(url + 'auth/signin', body: {
         "email": email,
@@ -15,6 +17,7 @@ class ServicioLogin {
       }).timeout(Duration(seconds: 30));
       final jsonResponse = json.decode(response.body);
       login = Login.fromJson(jsonResponse);
+      print('aqui');
       return login;
     } catch (e) {
       print(e);

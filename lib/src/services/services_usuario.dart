@@ -1,7 +1,10 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:hive/hive.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ui_flutter/main.dart';
+import 'package:ui_flutter/src/models/model_usuario.dart';
 import 'package:ui_flutter/src/services/service_url.dart';
 import 'package:http/http.dart' as http;
 
@@ -70,7 +73,8 @@ class ServicioUsuario {
             (Hive.box('solicitudusuariosdb').get('data') == null)
                 ? []
                 : Hive.box('solicitudusuariosdb').get('data');
-        if (usuariosVieja.length < jsonResponse['data'].length) {
+        if (jsonResponse['data'].length != null &&
+            usuariosVieja.length < jsonResponse['data'].length) {
           final dif = jsonResponse['data'].length - usuariosVieja.length;
           App.localStorage.setInt('cambio_solicitudusuario', dif);
         }
@@ -124,6 +128,34 @@ class ServicioUsuario {
       }
     } catch (exception) {
       return false;
+    }
+  }
+
+  Future<Usuario> searchUsuario(String us_cdgo) async {
+    var response;
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      response = await http.get(
+        url + "usuarios/buscar_id/" + us_cdgo,
+        headers: {
+          "x-access-token": prefs.getString('token'),
+        },
+      ).timeout(Duration(seconds: 40));
+    } on TimeoutException catch (e) {
+      print('Timeout');
+    } on Error catch (e) {
+      print('Error: $e');
+    }
+
+    if (response.statusCode == 200) {
+      final jsonResponse = json.decode(response.body)['data'][0];
+      print(jsonResponse);
+      Usuario user = Usuario.fromJson(jsonResponse);
+      print(user);
+      return user;
+    } else {
+      return null;
     }
   }
 

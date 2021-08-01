@@ -1,28 +1,34 @@
 import 'dart:convert';
 
-import 'package:hive/hive.dart';
 import 'package:ui_flutter/main.dart';
 import 'package:ui_flutter/src/services/service_url.dart';
 import 'package:http/http.dart' as http;
 
+// router.get('/notificar/:us_cdgo', firebase.notificar)
 class ServicioBotonPanico {
   String url = Url().getUrl();
 
-  Future<dynamic> getVehiculos() async {
+  Future<dynamic> getNotificacion(latitud, longitud) async {
     try {
-      final response = await http.get(
-        url + 'vehiculo',
-        headers: {'x-access-token': App.localStorage.getString('token')},
+      var response = await http.post(
+        url +
+            'firebase/notificar/' +
+            App.localStorage.getInt('us_cdgo').toString(),
+        headers: {
+          'x-access-token': App.localStorage.getString('token'),
+        },
+        body: {
+          'nombre': App.localStorage.getString('us_nombres'),
+          'latitud': latitud.toString(),
+          'longitud': longitud.toString(),
+        },
       ).timeout(Duration(seconds: 15));
-
       if (response.statusCode == 200) {
-        final jsonResponse = json.decode(response.body);
-
-        Hive.box('vehiculosdb')
-            .put('data', (jsonResponse['status']) ? jsonResponse['data'] : []);
+        return true;
+      } else {
+        print(json.decode(response.body));
+        return false;
       }
-      final pqrs = Hive.box('vehiculosdb').get('data');
-      return pqrs;
     } catch (e) {}
   }
 

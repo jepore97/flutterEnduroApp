@@ -1,12 +1,17 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:ui_flutter/src/models/model_boton_panico.dart';
+import 'package:ui_flutter/src/models/model_usuario.dart';
+import 'package:ui_flutter/src/services/services_usuario.dart';
+import 'package:ui_flutter/src/widgets/widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PageEmergencyHelp extends StatefulWidget {
-  String data;
+  var data;
   PageEmergencyHelp(this.data, {Key key}) : super(key: key);
 
   @override
@@ -14,19 +19,11 @@ class PageEmergencyHelp extends StatefulWidget {
 }
 
 Completer<GoogleMapController> _controller = Completer();
-
-CameraPosition _kGooglePlex = CameraPosition(
-  target: LatLng(latitud, -122.085749655962),
-  bearing: 192.8334901395799,
-  zoom: 20,
-);
+Future<Usuario> searchUsuario;
+Usuario usuario;
 double latitud;
 double longitud;
-CameraPosition _kLake = CameraPosition(
-    bearing: 192.8334901395799,
-    target: LatLng(37.4219983, -122.084),
-    tilt: 59.440717697143555,
-    zoom: 10);
+BotonPanico dataPanico = new BotonPanico();
 const urlMaps =
     'https://www.google.com/maps/dir/?api=1&origin=43.7967876,-79.5331616&destination=43.5184049,-79.8473993&waypoints=43.1941283,-79.59179|43.7991083,-79.5339667|43.8387033,-79.3453417|43.836424,-79.3024487&travelmode=driving&dir_action=navigate';
 
@@ -35,16 +32,10 @@ class _PageEmergencyHelpState extends State<PageEmergencyHelp> {
   @override
   void initState() {
     super.initState();
-    getCurrentLocation();
-  }
-
-  getCurrentLocation() async {
-    final geoposition = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    setState(() {
-      latitud = geoposition.latitude;
-      longitud = geoposition.longitude;
-    });
+    dataPanico = BotonPanico.fromJson(jsonDecode(widget.data));
+    longitud = double.parse(dataPanico.longitud);
+    latitud = double.parse(dataPanico.latitud);
+    searchUsuario = ServicioUsuario().searchUsuario(dataPanico.us_cdgo);
   }
 
   @override
@@ -56,15 +47,56 @@ class _PageEmergencyHelpState extends State<PageEmergencyHelp> {
       body: Column(
         children: [
           Container(
+            child: Text(
+              'Emergencia',
+              style: (TextStyle(
+                  color: Colors.red[400],
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold)),
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.all(25),
+            child: Text(
+                'Un integrante se encuentra en una situacion de emergencia:'),
+          ),
+          Column(
+            children: [
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 20),
+                child: FutureBuilder<Usuario>(
+                  future: searchUsuario,
+                  builder: (context, snapshot) {
+                    usuario = snapshot.data;
+                    print(usuario);
+                    return Column(
+                      children: [
+                        // Container(
+                        //   margin: EdgeInsets.all(15),
+                        //   child: WidgetsGenericos.imagen_perfil(
+                        //       context, usuario.us_logo),
+                        // ),
+                        Text('Nombre: ' +
+                            usuario.us_nombres +
+                            ' ' +
+                            usuario.us_apellidos)
+                      ],
+                    );
+                  },
+                ),
+              )
+            ],
+          ),
+          Container(
             padding: EdgeInsets.all(5),
-            height: 300,
+            height: 250,
             child: Center(
               child: GoogleMap(
                 mapType: MapType.hybrid,
                 initialCameraPosition: CameraPosition(
                   target: LatLng(latitud, longitud),
                   bearing: 192.8334901395799,
-                  zoom: 20,
+                  zoom: 13,
                 ),
                 onMapCreated: (GoogleMapController controller) {
                   _controller.complete(controller);
@@ -73,7 +105,7 @@ class _PageEmergencyHelpState extends State<PageEmergencyHelp> {
             ),
           ),
           Container(
-            child: Text(latitud.toString() + '    ' + longitud.toString()),
+            child: Text(dataPanico.us_cdgo),
           )
         ],
       ),
@@ -95,5 +127,6 @@ _launchURL(String url) async {
 }
 
 _goToTheLake() {
-  _launchURL(urlMaps);
+  // _launchURL(urlMaps);
+  // await launch(urlMaps);
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ui_flutter/src/services/services_usuario.dart';
 import 'package:ui_flutter/src/widgets/nav_bar/nav_drawer.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
@@ -9,57 +10,9 @@ class PageBusquedaEmergencia extends StatefulWidget {
   _PageBusquedaEmergenciaState createState() => _PageBusquedaEmergenciaState();
 }
 
-@immutable
-class User {
-  const User({
-    this.email,
-    this.name,
-  });
-
-  final String email;
-  final String name;
-
-  @override
-  String toString() {
-    return '$name, $email';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (other.runtimeType != runtimeType) {
-      return false;
-    }
-    return other is User && other.name == name && other.email == email;
-  }
-
-  @override
-  int get hashCode => hashValues(email, name);
-}
-
 class _PageBusquedaEmergenciaState extends State<PageBusquedaEmergencia> {
   Widget _appBarTitle = new Text('Búsqueda de emergencia');
-  static const List<User> _userOptions = <User>[
-    User(name: 'Alice', email: 'alice@example.com'),
-    User(name: 'Bob', email: 'bob@example.com'),
-    User(name: 'Charlie', email: 'charlie123@gmail.com'),
-    User(name: 'Charlie', email: 'charlie123@gmail.com'),
-    User(name: 'Charlie', email: 'charlie123@gmail.com'),
-    User(name: 'Charlie', email: 'charlie123@gmail.com'),
-    User(name: 'Charlie', email: 'charlie123@gmail.com'),
-    User(name: 'Charlie', email: 'charlie123@gmail.com'),
-    User(name: 'Charlie', email: 'charlie123@gmail.com'),
-    User(name: 'Charlie', email: 'charlie123@gmail.com'),
-    User(name: 'Charlie', email: 'charlie123@gmail.com'),
-    User(name: 'Charlie', email: 'charlie123@gmail.com'),
-    User(name: 'Charlie', email: 'charlie123@gmail.com'),
-    User(name: 'Charlie', email: 'charlie123@gmail.com'),
-    User(name: 'Charlie', email: 'charlie123@gmail.com'),
-    User(name: 'Charlie', email: 'charlie123@gmail.com'),
-    User(name: 'Charlie', email: 'charlie123@gmail.com'),
-    User(name: 'Charlie', email: 'charlie123@gmail.com'),
-  ];
-
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final TextEditingController _typeAheadController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -72,22 +25,19 @@ class _PageBusquedaEmergenciaState extends State<PageBusquedaEmergencia> {
               style: DefaultTextStyle.of(context)
                   .style
                   .copyWith(fontStyle: FontStyle.italic),
-              decoration: InputDecoration(border: OutlineInputBorder())),
+              decoration: InputDecoration(border: OutlineInputBorder()),
+              controller: this._typeAheadController),
           suggestionsCallback: (pattern) async {
-            var data = _userOptions.where((element) {
-              print(element.name == pattern);
-              return element.name == pattern;
-            });
-            print(data);
+            var data = await ServicioUsuario().getUsuarioPlaca(pattern);
             return data;
           },
           itemBuilder: (context, suggestion) {
-            print(suggestion);
             return ListTile(
-              leading: Icon(Icons.motorcycle),
-              title: Text(suggestion['name']),
-              /* subtitle: Text('\$${suggestion['price']}'), */
-            );
+                leading: Icon(Icons.motorcycle),
+                title: Text(suggestion['ve_placa']));
+          },
+          noItemsFoundBuilder: (context) {
+            return Center(child: Text('Dato no encontrado'));
           },
           onSuggestionSelected: (suggestion) {
             Navigator.of(context)

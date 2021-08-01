@@ -94,7 +94,9 @@ class ServicioUsuario {
         url + 'usuarios/buscar_placa/' + ve_placa,
         headers: {'x-access-token': App.localStorage.getString('token')},
       ).timeout(Duration(seconds: 15));
-      return json.decode(response.body);
+      var dataUser = json.decode(response.body)['data'];
+      print(dataUser);
+      return (dataUser.length > 0) ? dataUser : [];
     } catch (e) {
       print(e);
     }

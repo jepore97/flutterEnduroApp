@@ -33,6 +33,7 @@ class _PageEmergencyHelpState extends State<PageEmergencyHelp> {
   void initState() {
     super.initState();
     dataPanico = BotonPanico.fromJson(jsonDecode(widget.data));
+    print(dataPanico);
     longitud = double.parse(dataPanico.longitud);
     latitud = double.parse(dataPanico.latitud);
     searchUsuario = ServicioUsuario().searchUsuario(dataPanico.us_cdgo);

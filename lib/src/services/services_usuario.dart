@@ -84,6 +84,18 @@ class ServicioUsuario {
     }
   }
 
+  Future<dynamic> getUsuarioPlaca(String ve_placa) async {
+    try {
+      final response = await http.get(
+        url + 'usuarios/buscar_placa/' + ve_placa,
+        headers: {'x-access-token': App.localStorage.getString('token')},
+      ).timeout(Duration(seconds: 15));
+      return json.decode(response.body);
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Future<bool> addUsuario(
       String nombres,
       String apellidos,

@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ui_flutter/src/pages/busqueda_emergencia.dart';
 import 'package:ui_flutter/src/pages/boton_panico_enviar.dart';
 import 'package:ui_flutter/src/pages/emergency_help.dart';
 import 'package:ui_flutter/src/pages/listas_publicacion_masiva.dart';
@@ -204,9 +205,15 @@ class NavDrawerState extends State<NavDrawer> {
           ),
           Divider(),
           _createDrawerItem(
-              icon: Icons.search,
-              text: 'Busqueda Emergencia',
-              onTap: () => Navigator.pop(context)),
+            icon: Icons.search,
+            text: 'Busqueda Emergencia',
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => PageBusquedaEmergencia(),
+              ),
+            ),
+          ),
           Divider(),
           _createDrawerItem(
             icon: Icons.contacts,

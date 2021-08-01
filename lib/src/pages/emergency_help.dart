@@ -25,6 +25,8 @@ Usuario usuario;
 double latitud = 0;
 double longitud = 0;
 BotonPanico dataPanico = new BotonPanico();
+
+final Set<Marker> _markers = Set();
 const urlMaps =
     'https://www.google.com/maps/dir/?api=1&origin=43.7967876,-79.5331616&destination=43.5184049,-79.8473993&waypoints=43.1941283,-79.59179|43.7991083,-79.5339667|43.8387033,-79.3453417|43.836424,-79.3024487&travelmode=driving&dir_action=navigate';
 
@@ -38,6 +40,14 @@ class _PageEmergencyHelpState extends State<PageEmergencyHelp> {
     setState(() {
       longitud = double.parse(dataPanico.longitud);
       latitud = double.parse(dataPanico.latitud);
+      _markers.add(
+        Marker(
+          markerId: MarkerId('newyork'),
+          position: LatLng(latitud, longitud),
+          infoWindow: InfoWindow(
+              title: '¡Ayuda!', snippet: 'Ubicación del usuario en problemas'),
+        ),
+      );
       searchUsuario = ServicioUsuario().searchUsuario(dataPanico.us_cdgo);
     });
   }
@@ -91,6 +101,7 @@ class _PageEmergencyHelpState extends State<PageEmergencyHelp> {
                             child: Center(
                               child: GoogleMap(
                                   mapType: MapType.hybrid,
+                                  markers: _markers,
                                   initialCameraPosition: CameraPosition(
                                     target: LatLng(latitud, longitud),
                                     bearing: 192.8334901395799,

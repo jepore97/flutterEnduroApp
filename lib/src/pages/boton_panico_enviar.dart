@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ui_flutter/src/services/services_boton_panico.dart';
 
 import 'package:geolocator/geolocator.dart';
+import 'package:ui_flutter/src/widgets/widgets.dart';
 
 class PageBotonPanico extends StatefulWidget {
   PageBotonPanico({Key key}) : super(key: key);
@@ -24,7 +25,7 @@ class _PageBotonPanicoState extends State<PageBotonPanico> {
 
   getCurrentLocation() async {
     final geoposition = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+        desiredAccuracy: LocationAccuracy.best);
     setState(() {
       latitud = geoposition.latitude;
       longitud = geoposition.longitude;
@@ -76,8 +77,20 @@ class _PageBotonPanicoState extends State<PageBotonPanico> {
             height: 200,
             child: InkWell(
               onTap: () async {
+                WidgetsGenericos.showLoaderDialog(
+                    context, true, 'Cargando...', null, Colors.blue);
                 res = await ServicioBotonPanico()
                     .getNotificacion(latitud, longitud);
+                if (res) {
+                  Navigator.pop(context);
+                } else {
+                  Navigator.pop(context);
+                  WidgetsGenericos.showLoaderDialog(context, false,
+                      'Ha ocurrido un error', Icons.error_outline, Colors.red);
+
+                  await Future.delayed(Duration(milliseconds: 500));
+                  Navigator.pop(context);
+                }
               },
               child: CircleAvatar(
                 backgroundColor: Colors.red,

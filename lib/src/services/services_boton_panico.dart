@@ -10,6 +10,7 @@ class ServicioBotonPanico {
 
   Future<dynamic> getNotificacion(latitud, longitud) async {
     try {
+      print(latitud.toString());
       var response = await http.post(
         url +
             'firebase/notificar/' +

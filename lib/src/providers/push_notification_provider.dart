@@ -14,10 +14,10 @@ class PushNotificationProvider {
     _firebaseMessaging.requestNotificationPermissions();
     _firebaseMessaging.getToken().then((tokenfcm) {
       App.localStorage.setString('tokenfcm', tokenfcm);
+      print(App.localStorage.getString('tokenfcm'));
     });
     _firebaseMessaging.configure(
       onMessage: (message) async {
-        print(json.encode(message['data']));
         String argumento = 'no-data';
         if (Platform.isAndroid) {
           argumento = json.encode(message['data']).toString() ?? 'no-data';

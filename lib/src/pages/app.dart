@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:connection_status_bar/connection_status_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:ui_flutter/src/models/model_boton_panico.dart';
 import 'package:ui_flutter/src/pages/splash_screen.dart';
 import 'package:ui_flutter/src/providers/push_notification_provider.dart';
 
@@ -15,15 +18,15 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final GlobalKey<NavigatorState> navigator = new GlobalKey<NavigatorState>();
-
+  BotonPanico data;
   final pushNotificationProvider = new PushNotificationProvider();
   @override
   void initState() {
     pushNotificationProvider.initNotifications();
     pushNotificationProvider.mensajes.listen((argumento) {
+      data = BotonPanico.fromJson(jsonDecode(argumento));
       navigator.currentState.push(MaterialPageRoute(
-          builder: (BuildContext context) =>
-              PageEmergencyHelp(argumento.toString())));
+          builder: (BuildContext context) => PageEmergencyHelp(data)));
     });
     super.initState();
   }

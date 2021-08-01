@@ -11,6 +11,7 @@ class ServicioLogin {
     http.Response response;
     try {
       Login login;
+      print(App.localStorage.getString('tokenfcm'));
       response = await http.post(url + 'auth/signin', body: {
         "email": email,
         "password": password,

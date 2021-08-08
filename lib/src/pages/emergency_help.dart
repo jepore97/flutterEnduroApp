@@ -81,16 +81,17 @@ class _PageEmergencyHelpState extends State<PageEmergencyHelp> {
                 child: FutureBuilder<Usuario>(
                   future: searchUsuario,
                   builder: (context, snapshot) {
+                    print(snapshot.data);
                     if (snapshot.hasData) {
                       usuario = snapshot.data;
                       print(usuario);
                       return Column(
                         children: [
-                          // Container(
-                          //   margin: EdgeInsets.all(15),
-                          //   child: WidgetsGenericos.imagen_perfil(
-                          //       context, usuario.us_logo),
-                          // ),
+                          Container(
+                            margin: EdgeInsets.all(15),
+                            child: WidgetsGenericos.imagen_perfil(
+                                context, usuario.us_logo),
+                          ),
                           Text('Nombre: ' +
                               usuario.us_nombres +
                               ' ' +

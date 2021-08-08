@@ -22,6 +22,7 @@ class PushNotificationProvider {
         if (Platform.isAndroid) {
           argumento = json.encode(message['data']).toString() ?? 'no-data';
         }
+        print(argumento);
         _mensajesStreamController.sink.add(argumento);
       },
       onLaunch: (message) async {

@@ -14,7 +14,6 @@ class PushNotificationProvider {
     _firebaseMessaging.requestNotificationPermissions();
     _firebaseMessaging.getToken().then((tokenfcm) {
       App.localStorage.setString('tokenfcm', tokenfcm);
-      print(App.localStorage.getString('tokenfcm'));
     });
     _firebaseMessaging.configure(
       onMessage: (message) async {

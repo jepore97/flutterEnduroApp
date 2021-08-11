@@ -11,6 +11,8 @@ import 'package:ui_flutter/src/services/services_usuario.dart';
 import 'package:ui_flutter/src/widgets/widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../main.dart';
+
 class PageEmergencyHelp extends StatefulWidget {
   var data;
   PageEmergencyHelp(this.data, {Key key}) : super(key: key);
@@ -38,6 +40,7 @@ class _PageEmergencyHelpState extends State<PageEmergencyHelp> {
     dataPanico = widget.data;
     print(dataPanico.longitud);
     setState(() {
+      print(App.localStorage.getString('token'));
       longitud = double.parse(dataPanico.longitud);
       latitud = double.parse(dataPanico.latitud);
       _markers.add(
@@ -58,90 +61,104 @@ class _PageEmergencyHelpState extends State<PageEmergencyHelp> {
       appBar: new AppBar(
         title: Text('Boton de Panico'),
       ),
-      body: Column(
-        children: [
-          Container(
-            child: Text(
-              'Emergencia',
-              style: (TextStyle(
-                  color: Colors.red[400],
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold)),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              margin: EdgeInsets.only(top: 10),
+              child: Text(
+                'Emergencia',
+                style: (TextStyle(
+                    color: Colors.red[400],
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold)),
+              ),
             ),
-          ),
-          Container(
-            padding: EdgeInsets.all(25),
-            child: Text(
-                'Un integrante se encuentra en una situacion de emergencia:'),
-          ),
-          Column(
-            children: [
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 20),
-                child: FutureBuilder<Usuario>(
-                  future: searchUsuario,
-                  builder: (context, snapshot) {
-                    print(snapshot.data);
-                    if (snapshot.hasData) {
-                      usuario = snapshot.data;
-                      print(usuario);
-                      return Column(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.all(15),
-                            child: WidgetsGenericos.imagen_perfil(
-                                context, usuario.us_logo),
-                          ),
-                          Text('Nombre: ' +
-                              usuario.us_nombres +
-                              ' ' +
-                              usuario.us_apellidos),
-                          Container(
-                            padding: EdgeInsets.all(5),
-                            height: 250,
-                            child: Center(
-                              child: GoogleMap(
-                                  mapType: MapType.hybrid,
-                                  markers: _markers,
-                                  initialCameraPosition: CameraPosition(
-                                    target: LatLng(latitud, longitud),
-                                    bearing: 192.8334901395799,
-                                    zoom: 13,
-                                  ),
-                                  onMapCreated:
-                                      (GoogleMapController controller) {
-                                    if (!_controller.isCompleted) {
-                                      //first calling is false
-                                      //call "completer()"
-                                      _controller.complete(controller);
-                                    } else {
-                                      //other calling, later is true,
-                                      //don't call again completer()
-                                      print('');
-                                    }
-                                  }),
+            Container(
+              padding: EdgeInsets.all(20),
+              child: Text(
+                  'Un integrante se encuentra en una situacion de emergencia:'),
+            ),
+            Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 5),
+                  child: FutureBuilder<Usuario>(
+                    future: searchUsuario,
+                    builder: (context, snapshot) {
+                      print(snapshot.data);
+                      if (snapshot.hasData) {
+                        usuario = snapshot.data;
+                        print(usuario);
+                        return Column(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.all(15),
+                              child: WidgetsGenericos.imagen_perfil(
+                                  context, usuario.us_logo),
                             ),
-                          ),
-                          Container(
-                            child: Text(dataPanico.us_cdgo),
-                          )
-                        ],
-                      );
-                    } else {
-                      return CircularProgressIndicator();
-                    }
-                  },
-                ),
-              )
-            ],
-          ),
-        ],
+                            Text(
+                              usuario.us_nombres + ' ' + usuario.us_apellidos,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 25),
+                            ),
+                            Text(usuario.us_sd_desc,
+                                style: TextStyle(color: Colors.grey)),
+                            personalData(usuario),
+                            Column(
+                              children: [
+                                Text(
+                                  'Ubicación Actual',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15),
+                                ),
+                                Container(
+                                  padding: EdgeInsets.all(5),
+                                  height: 250,
+                                  child: Center(
+                                    child: GoogleMap(
+                                        mapType: MapType.hybrid,
+                                        markers: _markers,
+                                        initialCameraPosition: CameraPosition(
+                                          target: LatLng(latitud, longitud),
+                                          bearing: 192.8334901395799,
+                                          zoom: 13,
+                                        ),
+                                        onMapCreated:
+                                            (GoogleMapController controller) {
+                                          if (!_controller.isCompleted) {
+                                            //first calling is false
+                                            //call "completer()"
+                                            _controller.complete(controller);
+                                          } else {
+                                            //other calling, later is true,
+                                            //don't call again completer()
+                                            print('');
+                                          }
+                                        }),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        );
+                      } else {
+                        return CircularProgressIndicator();
+                      }
+                    },
+                  ),
+                )
+              ],
+            ),
+          ],
+        ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _goToTheLake(),
-        label: Text('Ir a GoogleMaps'),
-        icon: Icon(Icons.maps_ugc_outlined),
-      ),
+      // floatingActionButton: FloatingActionButton.extended(
+      //   onPressed: _goToTheLake(),
+      //   label: Text('Ir a GoogleMaps'),
+      //   icon: Icon(Icons.maps_ugc_outlined),
+      // ),
     );
   }
 }
@@ -152,6 +169,88 @@ _launchURL(String url) async {
   } else {
     throw 'Could not launch $url';
   }
+}
+
+personalData(Usuario usuario) {
+  return Container(
+    margin: EdgeInsets.all(30),
+    child: Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Column(
+              children: [
+                usuario.us_alias != null
+                    ? Column(
+                        children: [
+                          Text('Alias', style: (TextStyle(color: Colors.grey))),
+                          Text('' + usuario.us_alias)
+                        ],
+                      )
+                    : '',
+                usuario.us_telefono != null
+                    ? Column(
+                        children: [
+                          Text('Telefono',
+                              style: (TextStyle(color: Colors.grey))),
+                          Text('' + usuario.us_telefono)
+                        ],
+                      )
+                    : '',
+                usuario.us_correo != null
+                    ? Column(
+                        children: [
+                          Text('Email', style: (TextStyle(color: Colors.grey))),
+                          Text('' + usuario.us_correo)
+                        ],
+                      )
+                    : '',
+              ],
+            ),
+            Column(
+              children: [
+                usuario.us_sexo != null
+                    ? Column(
+                        children: [
+                          Text('Sexo', style: (TextStyle(color: Colors.grey))),
+                          Text('' + usuario.us_sexo == 'M'
+                              ? 'Masculino'
+                              : 'Femenino')
+                        ],
+                      )
+                    : '',
+                usuario.us_rh != null
+                    ? Column(
+                        children: [
+                          Text('R.H', style: (TextStyle(color: Colors.grey))),
+                          Text('' + usuario.us_rh)
+                        ],
+                      )
+                    : '',
+              ],
+            )
+          ],
+        ),
+        Container(
+          margin: EdgeInsets.only(top: 20),
+          child: Column(
+            children: [
+              usuario.us_direccion != null
+                  ? Column(
+                      children: [
+                        Text('Dirección de vivienda',
+                            style: (TextStyle(color: Colors.grey))),
+                        Text('' + usuario.us_direccion)
+                      ],
+                    )
+                  : '',
+            ],
+          ),
+        )
+      ],
+    ),
+  );
 }
 
 _goToTheLake() {

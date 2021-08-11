@@ -13,6 +13,7 @@ import 'package:ui_flutter/src/pages/inicio.dart';
 import 'package:ui_flutter/src/pages/listas_vehiculos.dart';
 import 'package:ui_flutter/src/pages/login.dart';
 import 'package:ui_flutter/src/pages/pqrs.dart';
+import 'package:ui_flutter/src/providers/push_notification_provider.dart';
 
 import '../../../main.dart';
 
@@ -257,6 +258,8 @@ class NavDrawerState extends State<NavDrawer> {
             icon: Icons.contacts,
             text: 'Cerrar sesión',
             onTap: () async {
+              final pushNotificationProvider = new PushNotificationProvider();
+              pushNotificationProvider.initNotifications();
               SharedPreferences prefes = await SharedPreferences.getInstance();
               await prefes.clear();
               Navigator.pushReplacement(

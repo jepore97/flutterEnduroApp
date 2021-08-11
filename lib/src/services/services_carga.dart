@@ -8,13 +8,13 @@ import 'services_sedes.dart';
 
 class ServicioCarga {
   cargarNuevosDatos() async {
-    // await ServicioSede().cargarSedes(true);
-    // await ServicioEmpresa().getEmpresa(true);
+    await ServicioSede().cargarSedes(true);
+    await ServicioEmpresa().getEmpresa(true);
     // await ServicioEvento().getEventos();
-    // await ServicioBitacoras().getBitacora(true);
-    // await ServicioPQRS().getPQRS();
-    // await ServicioPublicacionesMasivas().getPublicacionesMasivas();
-    // await ServicioUsuario().getSolicitudUsuarios();
+    await ServicioBitacoras().getBitacora(true);
+    await ServicioPQRS().getPQRS();
+    await ServicioPublicacionesMasivas().getPublicacionesMasivas();
+    await ServicioUsuario().getSolicitudUsuarios();
     // await ServicioVehiculos().getVehiculos();
   }
 }

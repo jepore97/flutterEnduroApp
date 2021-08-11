@@ -9,8 +9,8 @@ class ServicioLogin {
   String url = Url().getUrl();
   Future<Login> signin(String email, String password) async {
     http.Response response;
+    Login login;
     try {
-      Login login;
       print(App.localStorage.getString('tokenfcm'));
       response = await http.post(url + 'auth/signin', body: {
         "email": email,
@@ -21,7 +21,7 @@ class ServicioLogin {
       login = Login.fromJson(jsonResponse);
       return login;
     } catch (e) {
-      print(e);
+      return login;
     }
   }
 }

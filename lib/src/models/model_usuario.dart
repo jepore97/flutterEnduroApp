@@ -7,12 +7,11 @@ class Usuario {
   final String us_logo;
   final int us_perfil;
   final String us_sd_cdgo;
+  final String us_sd_desc;
   final String us_correo;
   final String us_telefono;
   final String us_sexo;
-
   final String us_rh;
-
   final String us_direccion;
 
   Usuario(
@@ -24,6 +23,7 @@ class Usuario {
       this.us_logo,
       this.us_perfil,
       this.us_sd_cdgo,
+      this.us_sd_desc,
       this.us_correo,
       this.us_telefono,
       this.us_sexo,
@@ -40,6 +40,7 @@ class Usuario {
       us_logo: parsedJson['us_logo'],
       us_perfil: parsedJson['us_perfil'],
       us_sd_cdgo: parsedJson['us_sd_cdgo'],
+      us_sd_desc: parsedJson['sd_desc'],
       us_correo: parsedJson['us_correo'],
       us_telefono: parsedJson['us_telefono'],
       us_sexo: parsedJson['us_sexo'],

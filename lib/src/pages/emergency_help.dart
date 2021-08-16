@@ -104,7 +104,7 @@ class _PageEmergencyHelpState extends State<PageEmergencyHelp> {
                             ),
                             Text(usuario.us_sd_desc,
                                 style: TextStyle(color: Colors.grey)),
-                            personalData(usuario),
+                            WidgetsGenericos.personalData(usuario),
                             Column(
                               children: [
                                 Text(
@@ -169,88 +169,6 @@ _launchURL(String url) async {
   } else {
     throw 'Could not launch $url';
   }
-}
-
-personalData(Usuario usuario) {
-  return Container(
-    margin: EdgeInsets.all(30),
-    child: Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Column(
-              children: [
-                usuario.us_alias != null
-                    ? Column(
-                        children: [
-                          Text('Alias', style: (TextStyle(color: Colors.grey))),
-                          Text('' + usuario.us_alias)
-                        ],
-                      )
-                    : '',
-                usuario.us_telefono != null
-                    ? Column(
-                        children: [
-                          Text('Telefono',
-                              style: (TextStyle(color: Colors.grey))),
-                          Text('' + usuario.us_telefono)
-                        ],
-                      )
-                    : '',
-                usuario.us_correo != null
-                    ? Column(
-                        children: [
-                          Text('Email', style: (TextStyle(color: Colors.grey))),
-                          Text('' + usuario.us_correo)
-                        ],
-                      )
-                    : '',
-              ],
-            ),
-            Column(
-              children: [
-                usuario.us_sexo != null
-                    ? Column(
-                        children: [
-                          Text('Sexo', style: (TextStyle(color: Colors.grey))),
-                          Text('' + usuario.us_sexo == 'M'
-                              ? 'Masculino'
-                              : 'Femenino')
-                        ],
-                      )
-                    : '',
-                usuario.us_rh != null
-                    ? Column(
-                        children: [
-                          Text('R.H', style: (TextStyle(color: Colors.grey))),
-                          Text('' + usuario.us_rh)
-                        ],
-                      )
-                    : '',
-              ],
-            )
-          ],
-        ),
-        Container(
-          margin: EdgeInsets.only(top: 20),
-          child: Column(
-            children: [
-              usuario.us_direccion != null
-                  ? Column(
-                      children: [
-                        Text('Dirección de vivienda',
-                            style: (TextStyle(color: Colors.grey))),
-                        Text('' + usuario.us_direccion)
-                      ],
-                    )
-                  : '',
-            ],
-          ),
-        )
-      ],
-    ),
-  );
 }
 
 _goToTheLake() {

@@ -4,6 +4,7 @@ import 'package:getwidget/components/button/gf_button.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:getwidget/shape/gf_button_shape.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:ui_flutter/src/models/model_usuario.dart';
 
 class WidgetsGenericos {
   static showLoaderDialog(BuildContext context, bool estado, String texto,
@@ -270,6 +271,91 @@ class WidgetsGenericos {
           //   size: GFSize.LARGE,
           //   color: Theme.of(context).accentColor,
           // ),
+        ],
+      ),
+    );
+  }
+
+  static personalData(usuario) {
+    return Container(
+      margin: EdgeInsets.all(30),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Column(
+                children: [
+                  usuario['us_alias'] != ''
+                      ? Column(
+                          children: [
+                            Text('Alias',
+                                style: (TextStyle(color: Colors.grey))),
+                            Text('' + usuario['us_alias'])
+                          ],
+                        )
+                      : Text(''),
+                  usuario['us_telefono'] != ''
+                      ? Column(
+                          children: [
+                            Text('Telefono',
+                                style: (TextStyle(color: Colors.grey))),
+                            Text('' + usuario['us_telefono'])
+                          ],
+                        )
+                      : Text(''),
+                  usuario['us_correo'] != ''
+                      ? Column(
+                          children: [
+                            Text('Email',
+                                style: (TextStyle(color: Colors.grey))),
+                            Text('' + usuario['us_correo'])
+                          ],
+                        )
+                      : Text(''),
+                ],
+              ),
+              Column(
+                children: [
+                  usuario['us_sexo'] != ''
+                      ? Column(
+                          children: [
+                            Text('Sexo',
+                                style: (TextStyle(color: Colors.grey))),
+                            Text('' + usuario['us_sexo'] == 'M'
+                                ? 'Masculino'
+                                : 'Femenino')
+                          ],
+                        )
+                      : Text(''),
+                  usuario['us_rh'] != null
+                      ? Column(
+                          children: [
+                            Text('R.H', style: (TextStyle(color: Colors.grey))),
+                            Text('' + usuario['us_rh'])
+                          ],
+                        )
+                      : Text(''),
+                ],
+              )
+            ],
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 20),
+            child: Column(
+              children: [
+                usuario['us_direccion'] != ''
+                    ? Column(
+                        children: [
+                          Text('Dirección de vivienda',
+                              style: (TextStyle(color: Colors.grey))),
+                          Text('' + usuario['us_direccion'])
+                        ],
+                      )
+                    : Text(''),
+              ],
+            ),
+          )
         ],
       ),
     );

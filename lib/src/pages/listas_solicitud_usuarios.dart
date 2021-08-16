@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:getwidget/components/button/gf_button.dart';
 import 'package:hive/hive.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:ui_flutter/src/models/model_usuario.dart';
 import 'package:ui_flutter/src/services/services_usuario.dart';
 import 'package:ui_flutter/src/widgets/widgets.dart';
 
@@ -21,6 +22,7 @@ class _PageListasSolicitudUsuariosState
   Icon _searchIcon = Icon(Icons.search);
   String _searchText;
   List<dynamic> usuarios = Hive.box('solicitudusuariosdb').get('data');
+  Usuario usuario;
 
   _PageListasSolicitudUsuariosState() {
     _filter.addListener(() {
@@ -358,6 +360,7 @@ class _PageListasSolicitudUsuariosState
                     ),
                   ),
                 ),
+                WidgetsGenericos.personalData(data),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20),
                   child: Row(

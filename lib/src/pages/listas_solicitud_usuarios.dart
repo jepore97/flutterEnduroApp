@@ -354,13 +354,13 @@ class _PageListasSolicitudUsuariosState
                 ),
                 Center(
                   child: Text(
-                    data['us_sede'],
+                    data[''],
                     style: TextStyle(
                       fontSize: 15,
                     ),
                   ),
                 ),
-                WidgetsGenericos.personalData(data),
+                personalData(data),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20),
                   child: Row(
@@ -404,6 +404,91 @@ class _PageListasSolicitudUsuariosState
           ),
         );
       },
+    );
+  }
+
+  personalData(usuario) {
+    return Container(
+      margin: EdgeInsets.all(30),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Column(
+                children: [
+                  usuario['us_alias'] != ''
+                      ? Column(
+                          children: [
+                            Text('Alias',
+                                style: (TextStyle(color: Colors.grey))),
+                            Text('' + usuario['us_alias'])
+                          ],
+                        )
+                      : Text(''),
+                  usuario['us_telefono'] != ''
+                      ? Column(
+                          children: [
+                            Text('Telefono',
+                                style: (TextStyle(color: Colors.grey))),
+                            Text('' + usuario['us_telefono'])
+                          ],
+                        )
+                      : Text(''),
+                  usuario['us_correo'] != ''
+                      ? Column(
+                          children: [
+                            Text('Email',
+                                style: (TextStyle(color: Colors.grey))),
+                            Text('' + usuario['us_correo'])
+                          ],
+                        )
+                      : Text(''),
+                ],
+              ),
+              Column(
+                children: [
+                  usuario['us_sexo'] != ''
+                      ? Column(
+                          children: [
+                            Text('Sexo',
+                                style: (TextStyle(color: Colors.grey))),
+                            Text('' + usuario['us_sexo'] == 'M'
+                                ? 'Masculino'
+                                : 'Femenino')
+                          ],
+                        )
+                      : Text(''),
+                  usuario['us_rh'] != null
+                      ? Column(
+                          children: [
+                            Text('R.H', style: (TextStyle(color: Colors.grey))),
+                            Text('' + usuario['us_rh'])
+                          ],
+                        )
+                      : Text(''),
+                ],
+              )
+            ],
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 20),
+            child: Column(
+              children: [
+                usuario['us_direccion'] != ''
+                    ? Column(
+                        children: [
+                          Text('Dirección de vivienda',
+                              style: (TextStyle(color: Colors.grey))),
+                          Text('' + usuario['us_direccion'])
+                        ],
+                      )
+                    : Text(''),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }

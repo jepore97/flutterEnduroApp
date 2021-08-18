@@ -39,7 +39,8 @@ class WidgetsGenericos {
     );
   }
 
-  static Widget imagen_perfil(BuildContext context, String url) {
+  static Widget imagen_perfil(BuildContext context, String url,
+      [double tamano = 140]) {
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -53,8 +54,8 @@ class WidgetsGenericos {
       },
       child: Center(
         child: Container(
-          width: 140.0,
-          height: 140.0,
+          width: tamano,
+          height: tamano,
           decoration: BoxDecoration(
             image: DecorationImage(image: NetworkImage(url), fit: BoxFit.cover),
             boxShadow: [
@@ -65,7 +66,7 @@ class WidgetsGenericos {
                 offset: Offset(0, 3), // changes position of shadow
               ),
             ],
-            borderRadius: BorderRadius.circular(80.0),
+            borderRadius: BorderRadius.circular(100.0),
             border: Border.all(color: Colors.white, width: 5.0),
           ),
         ),
@@ -280,36 +281,37 @@ class WidgetsGenericos {
     return Container(
       margin: EdgeInsets.all(30),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Column(
                 children: [
-                  usuario['us_alias'] != ''
+                  usuario.us_alias != null
                       ? Column(
                           children: [
                             Text('Alias',
                                 style: (TextStyle(color: Colors.grey))),
-                            Text('' + usuario['us_alias'])
+                            Text('' + usuario.us_alias)
                           ],
                         )
                       : Text(''),
-                  usuario['us_telefono'] != ''
+                  usuario.us_telefono != null
                       ? Column(
                           children: [
                             Text('Telefono',
                                 style: (TextStyle(color: Colors.grey))),
-                            Text('' + usuario['us_telefono'])
+                            Text('' + usuario.us_telefono)
                           ],
                         )
                       : Text(''),
-                  usuario['us_correo'] != ''
+                  usuario.us_correo != null
                       ? Column(
                           children: [
                             Text('Email',
                                 style: (TextStyle(color: Colors.grey))),
-                            Text('' + usuario['us_correo'])
+                            Text('' + usuario.us_correo)
                           ],
                         )
                       : Text(''),
@@ -317,22 +319,22 @@ class WidgetsGenericos {
               ),
               Column(
                 children: [
-                  usuario['us_sexo'] != ''
+                  usuario.us_sexo != null
                       ? Column(
                           children: [
                             Text('Sexo',
                                 style: (TextStyle(color: Colors.grey))),
-                            Text('' + usuario['us_sexo'] == 'M'
+                            Text('' + usuario.us_sexo == 'M'
                                 ? 'Masculino'
                                 : 'Femenino')
                           ],
                         )
                       : Text(''),
-                  usuario['us_rh'] != null
+                  usuario.us_rh != null
                       ? Column(
                           children: [
                             Text('R.H', style: (TextStyle(color: Colors.grey))),
-                            Text('' + usuario['us_rh'])
+                            Text('' + usuario.us_rh)
                           ],
                         )
                       : Text(''),
@@ -344,12 +346,12 @@ class WidgetsGenericos {
             margin: EdgeInsets.only(top: 20),
             child: Column(
               children: [
-                usuario['us_direccion'] != ''
+                usuario.us_direccion != null
                     ? Column(
                         children: [
                           Text('Dirección de vivienda',
                               style: (TextStyle(color: Colors.grey))),
-                          Text('' + usuario['us_direccion'])
+                          Text('' + usuario.us_direccion)
                         ],
                       )
                     : Text(''),

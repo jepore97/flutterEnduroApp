@@ -28,6 +28,9 @@ class PushNotificationProvider {
         print(message);
       },
       onResume: (message) async {
+        String argumento = 'no-data';
+        argumento = json.encode(message['data']).toString() ?? 'no-data';
+        _mensajesStreamController.sink.add(argumento);
         print(message);
       },
     );

@@ -191,6 +191,32 @@ class ServicioUsuario {
     }
   }
 
+  Future<bool> updateData(String key, String value) async {
+    try {
+      print(App.localStorage.getInt('us_cdgo').toString());
+      final response = await http.put(
+        url +
+            "usuarios/cambio_data/" +
+            App.localStorage.getInt('us_cdgo').toString(),
+        headers: {
+          "x-access-token": App.localStorage.getString('token'),
+        },
+        body: {"key": key, "value": value},
+      ).timeout(Duration(seconds: 10));
+
+      if (response.statusCode == 200) {
+        App.conexion.emit('usuarios', [
+          {'tipo': 'actualizar', 'sede': null, 'alias': null}
+        ]);
+        return true;
+      } else {
+        return false;
+      }
+    } catch (exception) {
+      return false;
+    }
+  }
+
   Future<bool> updateEstado(String us_cdgo, String accion) async {
     try {
       final response = await http.put(

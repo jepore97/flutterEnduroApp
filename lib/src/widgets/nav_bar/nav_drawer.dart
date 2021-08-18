@@ -12,6 +12,7 @@ import 'package:ui_flutter/src/pages/listas_bitacoras.dart';
 import 'package:ui_flutter/src/pages/inicio.dart';
 import 'package:ui_flutter/src/pages/listas_vehiculos.dart';
 import 'package:ui_flutter/src/pages/login.dart';
+import 'package:ui_flutter/src/pages/perfil.dart';
 import 'package:ui_flutter/src/pages/pqrs.dart';
 import 'package:ui_flutter/src/providers/push_notification_provider.dart';
 
@@ -88,6 +89,7 @@ class NavDrawerState extends State<NavDrawer> {
   String usNombres = App.localStorage.getString('us_nombres') ?? '',
       usAlias = App.localStorage.getString('us_alias') ?? '';
   int cambioSede = App.localStorage.getInt('cambio_sede') ?? 0;
+  int usCdgo = App.localStorage.getInt('us_cdgo') ?? '';
   int cambioEmpresa = App.localStorage.getInt('cambio_empresa') ?? 0;
   int cambioBitacora = App.localStorage.getInt('cambio_bitacora') ?? 0;
   int cambioPQRS = App.localStorage.getInt('cambio_pqrs') ?? 0;
@@ -115,29 +117,39 @@ class NavDrawerState extends State<NavDrawer> {
         // Important: Remove any padding from the ListView.
         padding: EdgeInsets.zero,
         children: <Widget>[
-          UserAccountsDrawerHeader(
-            accountName: Text(
-              usNombres,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 30.0,
-              ),
-            ),
-            accountEmail: Text(usAlias,
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PagePerfil(usCdgo),
+                ),
+              );
+            },
+            child: UserAccountsDrawerHeader(
+              accountName: Text(
+                usNombres,
                 style: TextStyle(
-                  color: Colors.black45,
-                  fontSize: 18.0,
-                )),
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.8),
-              image: DecorationImage(
-                  colorFilter: new ColorFilter.mode(
-                      Colors.black.withOpacity(0.6), BlendMode.dstATop),
-                  image: NetworkImage(
-                    App.localStorage.getString('us_logo') ??
-                        'https://picsum.photos/200/300',
-                  ),
-                  fit: BoxFit.contain),
+                  color: Colors.black,
+                  fontSize: 30.0,
+                ),
+              ),
+              accountEmail: Text(usAlias,
+                  style: TextStyle(
+                    color: Colors.black45,
+                    fontSize: 18.0,
+                  )),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.8),
+                image: DecorationImage(
+                    colorFilter: new ColorFilter.mode(
+                        Colors.black.withOpacity(0.6), BlendMode.dstATop),
+                    image: NetworkImage(
+                      App.localStorage.getString('us_logo') ??
+                          'https://picsum.photos/200/300',
+                    ),
+                    fit: BoxFit.contain),
+              ),
             ),
           ),
           _createDrawerItem(
